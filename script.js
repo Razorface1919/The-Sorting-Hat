@@ -321,10 +321,57 @@ function startCeremony() {
     setTimeout(() => {
         landing.style.display = "none";
         initMotes(); 
-        ["images/Red_bg.jpg", "images/Green_bg.jpg", "images/Blue_bg.jpg", "images/Yellow_bg.jpg",
-         "images/g_logo.png", "images/s_logo.png", "images/r_logo.png", "images/h_logo.png"
-        ].forEach(src => { const img = new Image(); img.src = src; });
+        preloadAllMagicalAssets();
     }, 2000);
+}
+
+function preloadAllMagicalAssets() {
+    const allImages = new Set([
+        // Core Backgrounds & Crests
+        "images/Red_bg.jpg", "images/Green_bg.jpg", "images/Blue_bg.jpg", "images/Yellow_bg.jpg",
+        "images/g_logo.png", "images/s_logo.png", "images/r_logo.png", "images/h_logo.png",
+        
+        // Hardcoded Quiz Assets (Potions, Boxes, Companions, Tarot)
+        "images/potion_glory.png", "images/potion_power.png", "images/potion_wisdom.png", "images/potion_comfort.png",
+        "images/SmallPewter.png", "images/JetBlack.png", "images/GoldenCasket.png", "images/TortoiseShell.png",
+        "images/cat.png", "images/toad.png", "images/owl.png",
+        "images/tarot_corner1.png", "images/tarot_corner2.png", "images/tarot_corner3.png",
+        
+        // Astrolabe
+        "images/dawn_scenery.png", "images/dusk_scenery.png", "images/dawn_button.png", "images/dusk_button.png"
+    ]);
+
+    questions.forEach(q => {
+        if (q.answers) {
+            q.answers.forEach(a => {
+                if (a.img) allImages.add(`images/${a.img}`);
+                if (a.bg) allImages.add(`images/${a.bg}`);
+                // Check follow-up questions (like the specific breeds of cats/owls)
+                if (a.followUp && a.followUp.answers) {
+                    a.followUp.answers.forEach(fa => {
+                        if (fa.img) allImages.add(`images/${fa.img}`);
+                    });
+                }
+            });
+        }
+    });
+
+    Object.values(HOUSE_LORE).forEach(lore => {
+        allImages.add(lore.relicImg);
+        allImages.add(lore.crestImg);
+        allImages.add(lore.bgImg);
+        allImages.add(lore.giantMascot);
+        allImages.add(lore.badgeImg);
+        allImages.add(lore.idFrontImg);
+        allImages.add(lore.idBackImg);
+        allImages.add(lore.colorImg);
+        allImages.add(lore.ghostImg);
+    });
+
+    allImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
 }
 
 function submitRegistration() {
