@@ -45,6 +45,17 @@ button:hover {
     animation: mistPulse 8s ease-in-out infinite alternate;
 }
 
+/* =========================================
+       Global Image Tap Protection 
+       ========================================= */
+    .game-container img {
+        -webkit-touch-callout: none !important; 
+        -webkit-user-drag: none !important; 
+        -webkit-user-select: none !important; 
+        user-select: none !important;
+        pointer-events: none !important; 
+    }
+
 /* ==========================================================================
    2. APP ROUTING: LANDING PAGE
    ========================================================================== */
@@ -933,7 +944,11 @@ button:hover {
    MOBILE PHONES (PORTRAIT)
    ----------------------------------------- */
 @media (max-width: 600px) {
-    /* Global & Landing */
+
+    /* Global Overflows */
+    body, html, .game-container { overflow-x: hidden !important; max-width: 100vw !important; }
+    
+    /* Landing */
     .magical-orbits-system { transform: scale(0.45); }
     .landing-main-hat { width: 220px; }
     .landing-text-area { text-align: center; padding-left: 0; align-items: center; }
@@ -950,9 +965,9 @@ button:hover {
     .form-grid { gap: 15px; }
     .input-group label { font-size: 10px; margin-bottom: 5px; }
     .input-group input, .input-group select { padding: 12px 15px; font-size: 14px; }
-    .reg-content .submit-btn { width: 100%; max-width: 200px; margin: 20px auto 0; display: block; padding: 12px 24px; font-size: 14px; }
+    .reg-content .submit-btn { width: auto !important; padding: 12px 30px !important; margin: 25px auto 0 !important; display: block; font-size: 14px; border-radius: 30px !important; }
 
-    /* 4-Quadrant House Selection */
+    /* House Selection */
     .quadrant-container, .options-grid-4 { display: grid !important; grid-template-columns: 1fr 1fr !important; grid-template-rows: 1fr 1fr !important; height: 100vh !important; width: 100vw !important; }
     .quadrant-option img, .quadrant-logo { width: 70px !important; height: auto; }
     .center-diamond, .question-diamond { width: 200px !important; height: 200px !important; transform: translate(-50%, -50%) scale(0.75) !important; }
@@ -964,17 +979,16 @@ button:hover {
     .magical-card { min-height: 100px; padding: 15px; width: 100%; max-width: 300px; }
     .nav-arrow { font-size: 30px !important; padding: 0 15px !important; -webkit-tap-highlight-color: transparent; outline: none; }
 
-    /* Shared Container Alignments */
-    .game-container:has(.carousel-wrapper),
-    .game-container:has(.diorama-wrapper) { justify-content: flex-start !important; padding: 10vh 0 20px !important; }
-    
+    /* Shared Container Alignments (Deduplicated) */
+    .game-container:has(.carousel-wrapper) { justify-content: flex-start !important; padding: 10vh 0 20px !important; }
     .game-container:has(.card-box) { justify-content: flex-start !important; padding: 6vh 0 20px !important; }
-    
-    .game-container:has(.creature-slider-container),
-    .game-container.flip-card-mode,
-    .game-container:has(.theme-instrument) { justify-content: center !important; align-items: center !important; padding-top: 0 !important; }
+    .game-container:has(.options-grid:not([class*="theme-"])) { justify-content: flex-start !important; padding: 5vh 0 40px !important; }
+    .game-container:has(.creature-slider-container), 
+    .game-container.flip-card-mode, 
+    .game-container:has(.theme-instrument), 
+    .game-container:has(.diorama-wrapper) { justify-content: center !important; align-items: center !important; padding-top: 0 !important; }
 
-    /* Potions (Liquid Cards) */
+    /* Potions */
     .options-grid.theme-liquid { gap: 12px !important; margin: 10px auto !important; width: 100% !important; max-width: 300px !important; justify-content: center !important; }
     .card-liquid { width: 140px !important; height: 230px !important; border-radius: 40px !important; margin: 0 auto !important; }
     .vial-img { width: 40% !important; top: 38%; }
@@ -988,18 +1002,18 @@ button:hover {
     .box-img { max-height: 70px !important; }
     .card-box .card-text { text-align: left !important; margin-top: 0 !important; font-size: 11px !important; line-height: 1.4 !important; flex: 1 !important; }
 
-    /* Slider / Carousel (Nightmares, etc.) */
+    /* Carousel */
     .carousel-wrapper { width: 100% !important; margin: 0 auto !important; justify-content: center !important; gap: 0 !important; }
     .slider-card { width: 260px !important; height: 380px !important; margin: 0 5px !important; }
     .slider-card .card-title { text-align: center !important; padding: 10px !important; }
     .select-btn-container { margin-top: 15px !important; }
     
     /* Diorama */
-    .diorama-stage { width: 260px !important; height: 380px !important; transform: none !important; margin: 0 auto !important; }
-    .diorama-item { width: 260px !important; }
-    .diorama-title-overlay { bottom: 15px !important; font-size: 14px !important; }
+    .diorama-wrapper { zoom: 0.8 !important; margin: 0 auto !important; display: flex !important; justify-content: center !important; }
+    .diorama-stage { transform: none !important; margin: 0 auto !important; }
+    .diorama-title-overlay { bottom: 25px !important; font-size: 15px !important; }
 
-    /* 3D Creature Slider */
+    /* Creature Slider */
     .creature-slider-container { width: 900px !important; zoom: 0.40 !important; margin: 0 auto !important; display: flex !important; justify-content: center !important; }
     .creature-slider-window { width: 860px !important; padding: 70px 40px 50px !important; overflow: hidden !important; }
     .creature-track { gap: 30px !important; transition: transform 0.8s ease !important; }
@@ -1009,10 +1023,14 @@ button:hover {
     .creature-card .title-container { padding-bottom: 20px !important; }
     .creature-card .title { font-size: 16px !important; letter-spacing: 2px !important; }
     
+    /* Companions (Vertical) */
+    .options-grid:not([class*="theme-"]) { display: flex !important; flex-direction: column !important; justify-content: flex-start !important; align-items: center !important; gap: 25px !important; width: 100% !important; margin: 0 auto !important; zoom: 0.85 !important; }
+    .options-grid:not([class*="theme-"]) .magical-card { max-width: 280px !important; margin: 0 !important; }
+
     /* Flip Cards */
     .options-grid.theme-flip-card { display: flex !important; flex-wrap: wrap !important; width: 760px !important; justify-content: center !important; gap: 30px 40px !important; zoom: 0.42 !important; margin: 20px auto 0 !important; }
 
-    /* Instruments Sliding Deck */
+    /* Instruments */
     .options-grid.theme-instrument { display: flex !important; flex-direction: row !important; width: 560px !important; padding: 40px 20px !important; zoom: 0.55 !important; margin: 0 auto !important; gap: 0 !important; justify-content: center !important; align-items: center !important; }
     .card-instrument { width: 200px !important; height: 300px !important; margin-left: -80px !important; max-width: none !important; }
     .card-instrument:first-child { margin-left: 0 !important; }
@@ -1027,20 +1045,19 @@ button:hover {
     .house-verse { font-size: 14px !important; }
     .verse-wrapper { padding: 25px 15px 15px !important; max-width: 90% !important; }
     .hero-mascot-wrapper { height: auto !important; margin-top: 0 !important; }
-    .giant-mascot { height: 40vh !important; max-height: 350px !important; margin-bottom: 30px !important; }
-    .massive-house-title { font-size: 38px !important; bottom: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; text-align: center !important; transform: translateY(10px) !important; }
-
+    .giant-mascot { height: 55vh !important; max-height: 450px !important; margin-bottom: 0 !important; }
+    .massive-house-title { font-size: 38px !important; bottom: 0 !important; left: 50% !important; right: auto !important; width: max-content !important; text-align: center !important; margin: 0 !important; padding: 0 !important; transform: translateX(-50%) translateY(-30px) !important; z-index: 10 !important; }
     .act-lore { margin-top: 8vh !important; gap: 30px !important; width: 90% !important; }
     .lore-title { font-size: 32px !important; text-align: center !important; }
     .lore-paragraph { font-size: 15px !important; padding: 0 10px !important; }
-    .dossier-flip-card { zoom: 0.8 !important; margin: 10px auto !important; max-width: none !important; }
-
+    .dossier-flip-card { zoom: 0.68 !important; margin: 10px auto !important; max-width: none !important; }
     .act-stats { width: 90% !important; gap: 25px !important; margin-bottom: 5vh !important; }
-    .radar-container { transform: scale(0.65) !important; transform-origin: center center !important; margin: -50px auto !important; display: flex !important; justify-content: center !important; width: 100% !important; }
-    .radar-pane, .symbols-pane, .prefect-message-pane { padding: 25px 15px !important; }
-    .symbol-item { padding: 15px !important; gap: 15px !important; }
-    .symbol-img-box { width: 70px !important; height: 70px !important; }
-    .symbol-value { font-size: 20px !important; }
+    .radar-container { position: relative !important; left: 50% !important; width: 400px !important; transform: translateX(-50%) scale(0.55) !important; transform-origin: center center !important; margin: -40px 0 !important; display: flex !important; justify-content: center !important; }
+    .radar-pane { width: 100% !important; overflow: hidden !important; box-sizing: border-box !important; padding: 25px 15px !important; } 
+    .symbols-pane, .prefect-message-pane { padding: 25px 15px !important; }
+    .symbol-item { display: flex !important; flex-direction: row !important; align-items: center !important; text-align: left !important; padding: 12px !important; gap: 15px !important; }
+    .symbol-img-box { width: 60px !important; height: 60px !important; flex-shrink: 0 !important; }
+    .symbol-value { font-size: 16px !important; line-height: 1.2 !important; }
     .prefect-text { font-size: 15px !important; }
-    #act3-prefect-msg::first-letter { font-size: 40px !important; margin-right: 8px !important; margin-top: 5px !important; }
+    #act3-prefect-msg::first-letter { font-size: 45px !important; float: left !important; line-height: 0.8 !important; margin-right: 8px !important; margin-top: 5px !important; }
 }
